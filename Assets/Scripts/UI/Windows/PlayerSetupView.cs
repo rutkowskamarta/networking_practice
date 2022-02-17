@@ -1,4 +1,5 @@
 using Game.Client;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,31 +7,40 @@ using Zenject;
 
 namespace Game.UI
 {
-    public class PlayerSetupWindow : Window
+    public class PlayerSetupView : UIView
     {
         [SerializeField]
         private TMP_InputField nameInputField;
 		[SerializeField]
 		private Button setupPlayerButton;
+		[SerializeField]
+		private Button backToMenuButton;
 
 		[Inject]
 		private IClientManager clientManager;
 
-		public override void Show()
+		public override void Show(Action onShownCallback = null)
 		{
-			base.Show();
+			base.Show(onShownCallback);
 			setupPlayerButton.onClick.AddListener(SetupPlayerButton_OnClick);
+			backToMenuButton.onClick.AddListener(BackToMenuButton_OnClick);
 		}
 
-		public override void Hide()
+		public override void Hide(Action onHiddenCallback = null)
 		{
-			base.Hide();
+			base.Hide(onHiddenCallback);
 			setupPlayerButton.onClick.RemoveListener(SetupPlayerButton_OnClick);
+			backToMenuButton.onClick.RemoveListener(BackToMenuButton_OnClick);  
 		}
 
 		private void SetupPlayerButton_OnClick()
 		{
 			clientManager.SendRequest(nameInputField.text);
+		}
+
+		private void BackToMenuButton_OnClick()
+		{
+			uiViewsManager.ShowViewOfType(UIViewType.MainMenu);
 		}
 	}
 }

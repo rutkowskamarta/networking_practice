@@ -1,11 +1,18 @@
 using Game.Client;
+using Game.UI;
 using Zenject;
 
-public class SceneInstaller : MonoInstaller
+namespace Game.Installers
 {
-    public override void InstallBindings()
+    public class SceneInstaller : MonoInstaller
     {
-        Container.Bind<IClientManager>()
-            .FromComponentInHierarchy().AsSingle();
+        public override void InstallBindings()
+        {
+            Container.Bind<IClientManager>()
+                .FromComponentInHierarchy().AsSingle();
+
+            Container.Bind<IUIViewsManager>()
+                .FromComponentInHierarchy().AsSingle();
+        }
     }
 }

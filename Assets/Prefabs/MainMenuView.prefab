@@ -59,9 +59,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3464050806896251929}
-  - component: {fileID: 7911314856573920039}
+  - component: {fileID: 7219142754599261414}
   m_Layer: 5
-  m_Name: MainMenuScreen
+  m_Name: MainMenuView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7911314856573920039
+--- !u!114 &7219142754599261414
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,11 +96,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3464050806896251930}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6aa4a8eb204d0242a129cbf960c6273, type: 3}
+  m_Script: {fileID: 11500000, guid: 55943eca78709664db1681e4dce9d482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   content: {fileID: 6924703171757961877}
-  hideAtStart: 0
+  viewType: 0
+  setupAccountButton: {fileID: 3464050807387529192}
+  createRoomButton: {fileID: 3464050808762036187}
+  joinRoomButton: {fileID: 3464050808012677544}
 --- !u!1 &3464050807186230735
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,7 +1014,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Create Room
+  m_text: Setup Player
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
