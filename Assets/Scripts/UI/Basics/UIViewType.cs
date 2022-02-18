@@ -6,6 +6,7 @@
         PlayerSetup,
         JoinRoom,
         CreateRoom,
+        LobbyRoom,
         Game,
     }
 }
