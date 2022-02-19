@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df2d4e95a07aaae4c8706a5260247ab3, type: 3}
+  m_Name: PlayerVisualisationOptions
+  m_EditorClassIdentifier: 
+  backroundItems:
+  - {fileID: 21300000, guid: 51ac2a29dafe1f8488e3988aa4c41cd6, type: 3}
+  - {fileID: 21300000, guid: 150cb804b40bf5644877e01d22b46372, type: 3}
+  - {fileID: 21300000, guid: 3c518d8e62f6f4d44ba6a91166ee2abd, type: 3}
+  bodyItems:
+  - {fileID: 21300000, guid: 2bf3d594c66349345b86309ee4747db6, type: 3}
+  - {fileID: 21300000, guid: cdf7e8d09ed1aae48a076abe854132c6, type: 3}
+  - {fileID: 21300000, guid: d64343309e99fc14f9b1fe46d0788a90, type: 3}
+  faceItems:
+  - {fileID: 21300000, guid: 21be935c9001ec046a639734b2e94f85, type: 3}
+  - {fileID: 21300000, guid: 6ec6c85c4e738a8479f55a19b030e284, type: 3}
+  - {fileID: 21300000, guid: 52f13ddfce9e3e446bd533247b76a675, type: 3}
+  accessoriesItems:
+  - {fileID: 21300000, guid: 9543a809a210c9f4885793adef9b4b70, type: 3}
+  - {fileID: 21300000, guid: 58f72a2aea732e34db9350cf88307d21, type: 3}
+  - {fileID: 21300000, guid: 3fcd3c3ef07a3a141be99da73b66cf18, type: 3}
