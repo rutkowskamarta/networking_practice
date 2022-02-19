@@ -14,6 +14,7 @@ namespace Game.UI
         private UIViewType viewType = default;
 
         protected IUIViewsManager uiViewsManager;
+        private Sequence animationSequence;
 
         [Inject]
         private void Inject(IUIViewsManager uiViewsManager)
@@ -24,24 +25,42 @@ namespace Game.UI
 
 		public virtual void Show(Action onShownCallback = null)
 		{
-            content.gameObject.SetActive(true);
-            onShownCallback?.Invoke(); 
-		}
+            TweenWindowShow(onShownCallback);
+        }
 
         public virtual void Hide(Action onHiddenCallback = null)
 		{
-            content.gameObject.SetActive(false);
-            onHiddenCallback?.Invoke();
+            TweenWindowHide(onHiddenCallback);
         }
 
-        private void TweenWindowShow()
+        private void TweenWindowShow(Action onShownCallback = null)
 		{
-
+            animationSequence?.Complete(true);
+            content.gameObject.SetActive(true);
+            animationSequence = DOTween.Sequence().SetUpdate(true);
+            animationSequence.Insert(0.0f, content.DOFade(1.0f, 1.0f).SetEase(Ease.OutQuad));
+            animationSequence.AppendCallback(OnWindowShown);
+            animationSequence.AppendCallback(() => onShownCallback?.Invoke());
 		}
 
-        private void AddFadeInAnimation(bool shouldAnimate)
+        private void TweenWindowHide(Action onShownCallback = null)
         {
-            //animationSequence.Insert(0.0f, content.DOFade(1.0f, shouldAnimate ? animationDuration : 0.0f).SetEase(Ease.OutQuad));
+            animationSequence?.Complete(true);
+            animationSequence = DOTween.Sequence().SetUpdate(true);
+            animationSequence.Insert(0.0f, content.DOFade(0.0f, 1.0f).SetEase(Ease.OutQuad));
+            animationSequence.AppendCallback(OnWindowHide);
+            animationSequence.AppendCallback(() => onShownCallback?.Invoke());
+        }
+
+        private void OnWindowShown()
+        {
+            content.blocksRaycasts = true;
+        }
+
+        private void OnWindowHide()
+        {
+            content.blocksRaycasts = false;
+            content.gameObject.SetActive(false);
         }
     }
 }
