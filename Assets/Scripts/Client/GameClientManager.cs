@@ -4,15 +4,11 @@ using UnityEngine;
 
 namespace Game.Client
 {
-	interface IClientManager
-	{
-		void SendRequest(string data);
-	}
-
-    public class ClientManager : MonoBehaviour, IClientManager
+    public class GameClientManager : MonoBehaviour, IGameClientManager
     {
         [SerializeField]
         private UnityClient client;
+		public bool IsClientConnected => client.ConnectionState == ConnectionState.Connected;
 
 		private void OnEnable()
 		{
@@ -26,19 +22,17 @@ namespace Game.Client
 
 		private void Client_MessageReceived(object sender, DarkRift.Client.MessageReceivedEventArgs e)
 		{
-			throw new System.NotImplementedException();
 		}
 
-		public void SendRequest(string data)
+		public void SendRequest(ushort tag, IDarkRiftSerializable data)
 		{
 			using (DarkRiftWriter writer = DarkRiftWriter.Create())
 			{
-				writer.Write(data);
+				writer.Write<IDarkRiftSerializable>(data);
 
-				using (Message message = Message.Create(0, writer))
+				using (Message message = Message.Create(tag, writer))
 					client.SendMessage(message, SendMode.Unreliable);
 			}
 		}
-
 	}
 }

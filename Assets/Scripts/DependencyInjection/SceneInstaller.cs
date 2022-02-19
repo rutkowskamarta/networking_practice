@@ -1,4 +1,5 @@
 using Game.Client;
+using Game.PlayerData;
 using Game.UI;
 using Zenject;
 
@@ -8,10 +9,13 @@ namespace Game.Installers
     {
         public override void InstallBindings()
         {
-            Container.Bind<IClientManager>()
+            Container.Bind<IGameClientManager>()
                 .FromComponentInHierarchy().AsSingle();
 
             Container.Bind<IUIViewsManager>()
+                .FromComponentInHierarchy().AsSingle();
+
+            Container.Bind<IPlayerDataManager>()
                 .FromComponentInHierarchy().AsSingle();
         }
     }

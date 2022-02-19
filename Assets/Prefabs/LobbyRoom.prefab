@@ -1041,6 +1041,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   content: {fileID: 2120955918762737614}
   viewType: 4
+  roomID: {fileID: 7993816867392040122}
+  leaveRoomButton: {fileID: 6987143897495487556}
+  startGameButton: {fileID: 6723672327536570945}
 --- !u!1001 &322340668685996748
 PrefabInstance:
   m_ObjectHideFlags: 0

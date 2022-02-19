@@ -1,4 +1,4 @@
-using Game.Client;
+using Game.PlayerData;
 using System;
 using TMPro;
 using UnityEngine;
@@ -17,11 +17,12 @@ namespace Game.UI
 		private Button backToMenuButton;
 
 		[Inject]
-		private IClientManager clientManager;
+		private IPlayerDataManager playerDataManager;
 
 		public override void Show(Action onShownCallback = null)
 		{
 			base.Show(onShownCallback);
+			InitializePlayerData();
 			setupPlayerButton.onClick.AddListener(SetupPlayerButton_OnClick);
 			backToMenuButton.onClick.AddListener(BackToMenuButton_OnClick);
 		}
@@ -33,9 +34,17 @@ namespace Game.UI
 			backToMenuButton.onClick.RemoveListener(BackToMenuButton_OnClick);  
 		}
 
+		private void InitializePlayerData()
+		{
+			var playerData = playerDataManager.PlayerData;
+			nameInputField.SetTextWithoutNotify(playerData.PlayerName);
+		}
+
 		private void SetupPlayerButton_OnClick()
 		{
-			clientManager.SendRequest(nameInputField.text);
+			playerDataManager.PlayerData.PlayerName = nameInputField.text;
+			playerDataManager.PlayerData.PlayerPicture = 0;
+			playerDataManager.SendPlayerDataUpdate();
 		}
 
 		private void BackToMenuButton_OnClick()
