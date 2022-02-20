@@ -15,6 +15,8 @@ namespace Game.UI
 		private Button setupPlayerButton;
 		[SerializeField]
 		private Button backToMenuButton;
+		[SerializeField]
+		private PlayerVisualisationChoicesUI playerVisualisationChoicesUI;
 
 		[Inject]
 		private IPlayerDataManager playerDataManager;
@@ -23,6 +25,7 @@ namespace Game.UI
 		{
 			base.Show(onShownCallback);
 			InitializePlayerData();
+			playerVisualisationChoicesUI.Initialize();
 			setupPlayerButton.onClick.AddListener(SetupPlayerButton_OnClick);
 			backToMenuButton.onClick.AddListener(BackToMenuButton_OnClick);
 		}
@@ -30,6 +33,7 @@ namespace Game.UI
 		public override void Hide(Action onHiddenCallback = null)
 		{
 			base.Hide(onHiddenCallback);
+			playerVisualisationChoicesUI.Deinitialize();
 			setupPlayerButton.onClick.RemoveListener(SetupPlayerButton_OnClick);
 			backToMenuButton.onClick.RemoveListener(BackToMenuButton_OnClick);  
 		}
@@ -44,6 +48,7 @@ namespace Game.UI
 		{
 			playerDataManager.PlayerData.PlayerName = nameInputField.text;
 			playerDataManager.PlayerData.PlayerPicture = 0;
+			playerVisualisationChoicesUI.SetupPlayerData();
 			playerDataManager.SendPlayerDataUpdate();
 		}
 

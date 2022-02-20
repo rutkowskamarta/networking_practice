@@ -1,10 +1,11 @@
 using Game.PlayerData;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Game.UI
 {
-    public class PlayerVisualisationContainer : MonoBehaviour
+    public class PlayerVisualisationContainerUI : MonoBehaviour
     {
         [SerializeField]
         private Image backgroundImage; 
@@ -16,6 +17,18 @@ namespace Game.UI
         private Image accessoryImage;
         [SerializeField]
         private PlayerVisualisationOptions playerVisualisationOptions;
+
+        [Inject]
+        private IPlayerDataManager playerDataManager;
+
+        public void Initialize()
+		{
+            var playerVisualisationData = playerDataManager.PlayerData.PlayerVisualisationData;
+            ChangeBackgroundImage(playerVisualisationData.PlayerVisualisationBackground);
+            ChangeBodyImage(playerVisualisationData.PlayerVisualisationBody);
+            ChangeFaceImage(playerVisualisationData.PlayerVisualisationFace);
+            ChangeAccessoryImage(playerVisualisationData.PlayerVisualisationAccessories);
+        }
 
         public void ChangeBackgroundImage(int backgroundIndex)
 		{

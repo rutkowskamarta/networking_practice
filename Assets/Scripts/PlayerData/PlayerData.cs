@@ -48,11 +48,19 @@ namespace Game.PlayerData
 			}
 		}
 
+		public PlayerVisualisationData PlayerVisualisationData { get; private set; }
+
+		public PlayerData()
+		{
+			PlayerVisualisationData = new PlayerVisualisationData();
+		}
+
 		public void Deserialize(DeserializeEvent deserializeEvent)
 		{
 			PlayerID = deserializeEvent.Reader.ReadInt32();
 			PlayerName = deserializeEvent.Reader.ReadString();
 			PlayerPicture = deserializeEvent.Reader.ReadInt32();
+			PlayerVisualisationData = deserializeEvent.Reader.ReadSerializable<PlayerVisualisationData>();
 		}
 
 		public void Serialize(SerializeEvent serializeEvent)
@@ -60,6 +68,7 @@ namespace Game.PlayerData
 			serializeEvent.Writer.Write(PlayerID);
 			serializeEvent.Writer.Write(PlayerName);
 			serializeEvent.Writer.Write(PlayerPicture);
+			serializeEvent.Writer.Write(PlayerVisualisationData);
 		}
 	}
 }
