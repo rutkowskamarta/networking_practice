@@ -58,7 +58,7 @@ namespace Game.UI
 		{
 			foreach (var view in views)
 			{
-				view.Value.Hide();
+				view.Value.HideInstant();
 			}
 			ShowViewOfType(firstView);
 		}
