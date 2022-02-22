@@ -251,6 +251,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   content: {fileID: 7984460103720233848}
   viewType: 3
+  createRoom: {fileID: 1470970684970826832}
+  backToMenu: {fileID: 6157152979933692583}
 --- !u!1 &6421045974294463616
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,7 +583,7 @@ GameObject:
   - component: {fileID: 3064025528355249413}
   - component: {fileID: 1470970684970826832}
   m_Layer: 5
-  m_Name: JoinButton
+  m_Name: CreateButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

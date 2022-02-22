@@ -35,13 +35,13 @@ namespace Game.UI
 
         private void NextButton_OnClick()
 		{
-            CurrentOption = CurrentOption + 1 >= optionsAmount ? optionsAmount - 1 : CurrentOption + 1;
+            CurrentOption = CurrentOption + 1 >= optionsAmount ? 0 : CurrentOption + 1;
             OnOptionChanged?.Invoke(CurrentOption);
         }
 
         private void PreviousButton_OnClick()
 		{
-            CurrentOption = CurrentOption - 1 <= 0 ? 0 : CurrentOption - 1;
+            CurrentOption = CurrentOption - 1 < 0 ? optionsAmount - 1 : CurrentOption - 1;
             OnOptionChanged?.Invoke(CurrentOption);
 		}
 	}

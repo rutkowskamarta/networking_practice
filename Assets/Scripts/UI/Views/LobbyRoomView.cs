@@ -1,8 +1,10 @@
 
+using Game.Room;
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Game.UI
 {
@@ -14,6 +16,9 @@ namespace Game.UI
         private Button leaveRoomButton;
         [SerializeField]
         private Button startGameButton;
+
+        [Inject]
+        private IRoomManager roomManager;
 
         public override void Show(Action onShownCallback = null)
         {
@@ -32,7 +37,7 @@ namespace Game.UI
 
         private void SetRoomID()
         {
-            roomID.SetText("11112222");
+            roomID.SetText(roomManager.CurrentRoomId);
         }
 
         private void LeaveRoomButton_OnClick()

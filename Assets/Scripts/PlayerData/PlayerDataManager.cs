@@ -20,7 +20,7 @@ namespace Game.PlayerData
 
 		public void SendPlayerDataUpdate()
 		{
-			clientManager.SendRequest(ServerCommunicationTags.PlayerData, playerData);
+			clientManager.SendRequest(ServerCommunicationTags.PlayerDataRequest, playerData);
 		}
 
 		private void Initialize()

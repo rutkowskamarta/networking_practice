@@ -1,13 +1,18 @@
 using DarkRift;
+using DarkRift.Client;
 using DarkRift.Client.Unity;
+using System;
 using UnityEngine;
 
 namespace Game.Client
 {
     public class GameClientManager : MonoBehaviour, IGameClientManager
     {
-        [SerializeField]
+		public event Action<MessageReceivedEventArgs> OnMessageReceived;
+
+		[SerializeField]
         private UnityClient client;
+
 		public bool IsClientConnected => client.ConnectionState == ConnectionState.Connected;
 
 		private void OnEnable()
@@ -20,15 +25,22 @@ namespace Game.Client
 			client.MessageReceived -= Client_MessageReceived;
 		}
 
-		private void Client_MessageReceived(object sender, DarkRift.Client.MessageReceivedEventArgs e)
+		private void Client_MessageReceived(object sender, MessageReceivedEventArgs messageEvent)
 		{
+			Debug.Log($"Received response of tag {messageEvent.GetMessage().Tag}");
+			OnMessageReceived?.Invoke(messageEvent);
 		}
 
 		public void SendRequest(ushort tag, IDarkRiftSerializable data)
 		{
+			Debug.Log($"Sending message of tag {tag}");
+
 			using (DarkRiftWriter writer = DarkRiftWriter.Create())
 			{
-				writer.Write<IDarkRiftSerializable>(data);
+				if (data != null)
+				{
+					writer.Write<IDarkRiftSerializable>(data);
+				}
 
 				using (Message message = Message.Create(tag, writer))
 					client.SendMessage(message, SendMode.Unreliable);

@@ -1,5 +1,6 @@
 using Game.Client;
 using Game.PlayerData;
+using Game.Room;
 using Game.UI;
 using Zenject;
 
@@ -17,6 +18,9 @@ namespace Game.Installers
 
             Container.Bind<IPlayerDataManager>()
                 .FromComponentInHierarchy().AsSingle();
+
+            Container.Bind<IRoomManager>()
+               .FromComponentInHierarchy().AsSingle();
         }
     }
 }
