@@ -7,6 +7,7 @@
         JoinRoom,
         CreateRoom,
         LobbyRoom,
-        WaitingForRoomConnection,
+        WaitingForRoomCreation,
+        WaitingForRoomJoin,
     }
 }

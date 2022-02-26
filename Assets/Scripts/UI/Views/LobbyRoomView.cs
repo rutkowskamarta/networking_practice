@@ -16,6 +16,8 @@ namespace Game.UI
         private Button leaveRoomButton;
         [SerializeField]
         private Button startGameButton;
+        [SerializeField]
+        private LobbyPlayerHolder lobbyPlayerHolder;
 
         [Inject]
         private IRoomManager roomManager;
@@ -23,31 +25,41 @@ namespace Game.UI
         public override void Show(Action onShownCallback = null)
         {
             base.Show(onShownCallback);
-            SetRoomID();
+            InitializeRoomInfo();
             leaveRoomButton.onClick.AddListener(LeaveRoomButton_OnClick);
             startGameButton.onClick.AddListener(StartGameButton_OnClick);
+			roomManager.OnRoomUpdatedState += RoomManager_OnRoomUpdatedState;
         }
 
-        public override void Hide(Action onHiddenCallback = null)
+		public override void Hide(Action onHiddenCallback = null)
         {
             base.Hide(onHiddenCallback);
             leaveRoomButton.onClick.RemoveListener(LeaveRoomButton_OnClick);
             startGameButton.onClick.RemoveListener(StartGameButton_OnClick);
+            roomManager.OnRoomUpdatedState -= RoomManager_OnRoomUpdatedState;
         }
 
-        private void SetRoomID()
+        private void InitializeRoomInfo()
         {
-            roomID.SetText(roomManager.CurrentRoomId);
+            roomID.SetText(roomManager.CurrentRoomData.RoomId);
+            lobbyPlayerHolder.UpdatePlayers(roomManager.CurrentRoomData.Players);
         }
 
         private void LeaveRoomButton_OnClick()
         {
+            //send leave event
             uiViewsManager.ShowViewOfType(UIViewType.MainMenu);
         }
 
         private void StartGameButton_OnClick()
         {
+            //TODO LATER
 
+        }
+
+        private void RoomManager_OnRoomUpdatedState(RoomData roomData)
+        {
+            lobbyPlayerHolder.UpdatePlayers(roomData.Players);
         }
     }
 }

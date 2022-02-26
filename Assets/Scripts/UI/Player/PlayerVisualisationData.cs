@@ -1,7 +1,7 @@
 using DarkRift;
 using UnityEngine;
 
-namespace Game.PlayerData
+namespace Game.Player
 {
     public class PlayerVisualisationData : IDarkRiftSerializable
     {

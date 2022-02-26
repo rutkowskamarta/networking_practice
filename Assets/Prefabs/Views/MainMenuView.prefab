@@ -359,6 +359,7 @@ MonoBehaviour:
   setupAccountButton: {fileID: 3464050807387529192}
   createRoomButton: {fileID: 3464050808762036187}
   joinRoomButton: {fileID: 3464050808012677544}
+  exitButton: {fileID: 9020689940335338382}
 --- !u!1 &3464050807186230735
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-using Game.PlayerData;
+using Game.Player;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -21,9 +21,9 @@ namespace Game.UI
         [Inject]
         private IPlayerDataManager playerDataManager;
 
-        public void Initialize()
+        public void Initialize(PlayerData playerData)
 		{
-            var playerVisualisationData = playerDataManager.PlayerData.PlayerVisualisationData;
+            var playerVisualisationData = playerData.PlayerVisualisationData;
             ChangeBackgroundImage(playerVisualisationData.PlayerVisualisationBackground);
             ChangeBodyImage(playerVisualisationData.PlayerVisualisationBody);
             ChangeFaceImage(playerVisualisationData.PlayerVisualisationFace);

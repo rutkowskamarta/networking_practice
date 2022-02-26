@@ -1,5 +1,5 @@
 using Game.Client;
-using Game.PlayerData;
+using Game.Player;
 using Game.Room;
 using Game.UI;
 using Zenject;

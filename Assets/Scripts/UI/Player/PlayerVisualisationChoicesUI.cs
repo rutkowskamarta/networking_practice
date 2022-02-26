@@ -1,4 +1,4 @@
-using Game.PlayerData;
+using Game.Player;
 using UnityEngine;
 using Zenject;
 
@@ -25,7 +25,7 @@ namespace Game.UI
         public void Initialize()
 		{
             var playerVisualisationData = playerDataManager.PlayerData.PlayerVisualisationData;
-            playerVisualisationContainer.Initialize();
+            playerVisualisationContainer.Initialize(playerDataManager.PlayerData);
             accessoryChoices.Initialize(playerVisualisationOptions.AccessoriesItems.Count, playerVisualisationData.PlayerVisualisationAccessories, playerVisualisationContainer.ChangeAccessoryImage);
             backgroundChoices.Initialize(playerVisualisationOptions.BackroundItems.Count, playerVisualisationData.PlayerVisualisationBackground, playerVisualisationContainer.ChangeBackgroundImage);
             bodyChoices.Initialize(playerVisualisationOptions.BodyItems.Count, playerVisualisationData.PlayerVisualisationBody, playerVisualisationContainer.ChangeBodyImage);

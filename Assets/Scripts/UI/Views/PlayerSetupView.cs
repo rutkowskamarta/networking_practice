@@ -1,4 +1,4 @@
-using Game.PlayerData;
+using Game.Player;
 using System;
 using TMPro;
 using UnityEngine;
@@ -47,7 +47,6 @@ namespace Game.UI
 		private void SetupPlayerButton_OnClick()
 		{
 			playerDataManager.PlayerData.PlayerName = nameInputField.text;
-			playerDataManager.PlayerData.PlayerPicture = 0;
 			playerVisualisationChoicesUI.SetupPlayerData();
 			playerDataManager.SendPlayerDataUpdate();
 		}

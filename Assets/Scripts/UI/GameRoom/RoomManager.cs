@@ -10,26 +10,25 @@ namespace Game.Room
     public class RoomManager : MonoBehaviour, IRoomManager
     {
 		public event Action OnRoomCreatedResponseSuccess;
-		public event Action OnRoomJoinedResponseSuccess;
 		public event Action OnRoomCreatedResponseFailed;
+		public event Action OnRoomJoinedResponseSuccess;
 		public event Action OnRoomJoinedResponseFail;
+		public event Action<RoomData> OnRoomUpdatedState;
 
 		[Inject]
 		private IGameClientManager gameClientManager;
 
-		public string CurrentRoomId { get; protected set; }
+		public RoomData CurrentRoomData { get; protected set; }
 
 		private void Start()
 		{
 			gameClientManager.OnMessageReceived += GameClientManager_OnMessageReceived;
 		}
 
-	
 		private void OnDestroy()
 		{
 			gameClientManager.OnMessageReceived -= GameClientManager_OnMessageReceived;
 		}
-
 	
 		private void GameClientManager_OnMessageReceived(MessageReceivedEventArgs messageEvent)
 		{
@@ -42,17 +41,39 @@ namespace Game.Room
 			{
 				OnRoomCreatedResponseFailed?.Invoke();
 			}
+			else if(messageEvent.Tag == ServerCommunicationTags.JoinRoomResponseSucess)
+			{
+				OnRoomJoinedResponseSuccess?.Invoke();
+			}
+			else if (messageEvent.Tag == ServerCommunicationTags.JoinRoomResponseFail)
+			{
+				OnRoomJoinedResponseFail?.Invoke();
+			}
+			else if (messageEvent.Tag == ServerCommunicationTags.UpdateRoomState)
+			{
+				ProcessRoomUpdateResponse(messageEvent);
+			}
 		}
-
 
 		private void ProcessRoomCreationResponse(MessageReceivedEventArgs messageEvent)
 		{
 			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
 			{
-				CurrentRoomId = reader.ReadString();
-				Debug.Log($"Created room of ID {CurrentRoomId}");
+				var roomId = reader.ReadString();
+				CurrentRoomData = new RoomData(roomId);
+				Debug.Log($"Created room of ID {roomId}");
 			}
 		}
 
+		private void ProcessRoomUpdateResponse(MessageReceivedEventArgs messageEvent)
+		{
+			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
+			{
+				RoomData roomData = reader.ReadSerializable<RoomData>();
+				CurrentRoomData = roomData;
+				OnRoomUpdatedState?.Invoke(roomData);
+				Debug.Log($"Updated State room of ID {CurrentRoomData.RoomId}");
+			}
+		}
 	}
 }

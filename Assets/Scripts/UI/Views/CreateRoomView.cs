@@ -32,7 +32,7 @@ namespace Game.UI
 
 		private void CreateRoomButton_OnClick()
 		{
-			uiViewsManager.ShowViewOfType(UIViewType.WaitingForRoomConnection, SendRoomConnectionRequest);
+			uiViewsManager.ShowViewOfType(UIViewType.WaitingForRoomCreation, SendRoomConnectionRequest);
 		}
 
 		private void SendRoomConnectionRequest()

@@ -9,6 +9,6 @@ namespace Game.Client
 		bool IsClientConnected { get; }
 
 		event Action<MessageReceivedEventArgs> OnMessageReceived;
-		void SendRequest(ushort tag, IDarkRiftSerializable data);
+		void SendRequest(ushort tag, IDarkRiftSerializable data = null);
 	}
 }

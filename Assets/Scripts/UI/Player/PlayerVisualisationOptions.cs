@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.PlayerData
+namespace Game.Player
 {
     [CreateAssetMenu(fileName = "PlayerVisualisationOptions", menuName = "Player Visualisation Options", order = 0)]
     public class PlayerVisualisationOptions : ScriptableObject

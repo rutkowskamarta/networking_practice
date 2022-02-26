@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
+using Game.Room;
 
 namespace Game.UI
 {
@@ -35,8 +36,8 @@ namespace Game.UI
 
 		private void JoinRoomButton_OnClick()
 		{
-			string roomID = inputField.text;
-			//gameClientManager.SendRequest(ServerCommunicationTags.JoinRoom, );
+			uiViewsManager.ShowViewOfType(UIViewType.WaitingForRoomJoin, SendRoomJoinRequest);
+
 		}
 
 		private void BackToMenuButton_OnClick()
@@ -44,5 +45,10 @@ namespace Game.UI
 			uiViewsManager.ShowViewOfType(UIViewType.MainMenu);
 		}
 
+		private void SendRoomJoinRequest()
+		{
+			string roomID = inputField.text;
+			gameClientManager.SendRequest(ServerCommunicationTags.JoinRoomRequest, new RoomData(roomID));
+		}
 	}
 }

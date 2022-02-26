@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 330498677782923212}
   - component: {fileID: 5726253694215922953}
   m_Layer: 5
-  m_Name: WaitingForRoomConnectionView
+  m_Name: WaitingForRoomCreationView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

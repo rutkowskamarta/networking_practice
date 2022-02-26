@@ -1,13 +1,12 @@
 using DarkRift;
 using UnityEngine;
 
-namespace Game.PlayerData
+namespace Game.Player
 {
     public class PlayerData : IDarkRiftSerializable
 	{
 		private const string PlayerIDPlayerPrefsKey = "PlayerID";
 		private const string PlayerNamePlayerPrefsKey = "PlayerName";
-		private const string PlayerPicturePlayerPrefsKey = "PlayerPicture";
 
 		public int PlayerID
 		{
@@ -35,19 +34,6 @@ namespace Game.PlayerData
 			}
 		}
 
-		public int PlayerPicture
-		{
-			get
-			{
-				return PlayerPrefs.GetInt(PlayerPicturePlayerPrefsKey, 0);
-			}
-			set
-			{
-				PlayerPrefs.SetInt(PlayerPicturePlayerPrefsKey, value);
-				PlayerPrefs.Save();
-			}
-		}
-
 		public PlayerVisualisationData PlayerVisualisationData { get; private set; }
 
 		public PlayerData()
@@ -59,7 +45,6 @@ namespace Game.PlayerData
 		{
 			PlayerID = deserializeEvent.Reader.ReadInt32();
 			PlayerName = deserializeEvent.Reader.ReadString();
-			PlayerPicture = deserializeEvent.Reader.ReadInt32();
 			PlayerVisualisationData = deserializeEvent.Reader.ReadSerializable<PlayerVisualisationData>();
 		}
 
@@ -67,7 +52,6 @@ namespace Game.PlayerData
 		{
 			serializeEvent.Writer.Write(PlayerID);
 			serializeEvent.Writer.Write(PlayerName);
-			serializeEvent.Writer.Write(PlayerPicture);
 			serializeEvent.Writer.Write(PlayerVisualisationData);
 		}
 	}

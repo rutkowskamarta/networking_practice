@@ -1,4 +1,4 @@
-namespace Game.PlayerData
+namespace Game.Player
 {
     public interface IPlayerDataManager
     {

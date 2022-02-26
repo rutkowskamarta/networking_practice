@@ -6,8 +6,8 @@ using Zenject;
 
 namespace Game.UI
 {
-	public class WaitingForRoomConnectionView : UIView
-	{
+    public class WaitingForRoomJoinView : UIView
+    {
 		[SerializeField]
 		private TMP_Text statusMessage;
 
@@ -18,14 +18,14 @@ namespace Game.UI
 		{
 			base.Show(onShownCallback);
 			InitializeStatusMessage();
-			roomManager.OnRoomCreatedResponseSuccess += RoomManager_OnRoomCreatedResponseSuccess;
-			roomManager.OnRoomCreatedResponseFailed += RoomManager_OnRoomCreatedResponseFailed;
+			roomManager.OnRoomJoinedResponseSuccess += RoomManager_OnRoomJoinResponseSuccess;
+			roomManager.OnRoomJoinedResponseFail += RoomManager_OnRoomJoinResponseFailed;
 		}
 		public override void Hide(Action onHiddenCallback = null)
 		{
 			base.Hide(onHiddenCallback);
-			roomManager.OnRoomCreatedResponseSuccess -= RoomManager_OnRoomCreatedResponseSuccess;
-			roomManager.OnRoomCreatedResponseFailed -= RoomManager_OnRoomCreatedResponseFailed;
+			roomManager.OnRoomJoinedResponseSuccess -= RoomManager_OnRoomJoinResponseSuccess;
+			roomManager.OnRoomJoinedResponseFail -= RoomManager_OnRoomJoinResponseFailed;
 		}
 
 		private void InitializeStatusMessage()
@@ -38,15 +38,16 @@ namespace Game.UI
 			statusMessage.SetText(text);
 		}
 
-		private void RoomManager_OnRoomCreatedResponseSuccess()
+		private void RoomManager_OnRoomJoinResponseSuccess()
 		{
-			SetStatusMessage("Creation succeeded");
+			SetStatusMessage("Join succeeded");
 			uiViewsManager.ShowViewOfType(UIViewType.LobbyRoom);
 		}
 
-		private void RoomManager_OnRoomCreatedResponseFailed()
+		private void RoomManager_OnRoomJoinResponseFailed()
 		{
-			SetStatusMessage("Failed to create game lobby.");
+			SetStatusMessage("Failed to join game lobby.");
+			uiViewsManager.ShowViewOfType(UIViewType.JoinRoom);
 		}
 	}
 }

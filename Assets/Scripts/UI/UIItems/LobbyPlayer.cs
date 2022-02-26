@@ -1,18 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
+using Game.Player;
+using TMPro;
 using UnityEngine;
 
-public class LobbyPlayer : MonoBehaviour
+namespace Game.UI
 {
-    // Start is called before the first frame update
-    void Start()
+    public class LobbyPlayer : MonoBehaviour
     {
-        
-    }
+        [SerializeField]
+        private PlayerVisualisationContainerUI playerVisualisation;
+        [SerializeField]
+        private TMP_Text playerName;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void Initialize(PlayerData playerData)
+		{
+            playerName.SetText(playerData.PlayerName);
+            playerVisualisation.Initialize(playerData);
+		}
     }
 }

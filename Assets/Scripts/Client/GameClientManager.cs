@@ -31,7 +31,7 @@ namespace Game.Client
 			OnMessageReceived?.Invoke(messageEvent);
 		}
 
-		public void SendRequest(ushort tag, IDarkRiftSerializable data)
+		public void SendRequest(ushort tag, IDarkRiftSerializable data = null)
 		{
 			Debug.Log($"Sending message of tag {tag}");
 

@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Zenject;
 
-namespace Game.PlayerData
+namespace Game.Player
 {
 	public class PlayerDataManager : MonoBehaviour, IPlayerDataManager
 	{
