@@ -1,6 +1,7 @@
 using DarkRift;
 using DarkRift.Client;
 using Game.Client;
+using Game.Player;
 using System;
 using UnityEngine;
 using Zenject;
@@ -60,7 +61,8 @@ namespace Game.Room
 			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
 			{
 				var roomId = reader.ReadString();
-				CurrentRoomData = new RoomData(roomId);
+				var players = reader.ReadSerializables<PlayerData>();
+				CurrentRoomData = new RoomData(roomId, players);
 				Debug.Log($"Created room of ID {roomId}");
 			}
 		}

@@ -22,11 +22,11 @@ namespace Game.UI
             }
         }
 
-        private void ClearPlayers()
+        public void ClearPlayers()
 		{
 			foreach (var item in lobbyPlayers)
 			{
-                Destroy(item);
+                Destroy(item.gameObject);
 			}
             lobbyPlayers.Clear();
 		}

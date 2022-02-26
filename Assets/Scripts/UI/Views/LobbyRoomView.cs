@@ -1,4 +1,5 @@
 
+using Game.Client;
 using Game.Room;
 using System;
 using TMPro;
@@ -21,6 +22,8 @@ namespace Game.UI
 
         [Inject]
         private IRoomManager roomManager;
+        [Inject]
+        private IGameClientManager gameClientManager;
 
         public override void Show(Action onShownCallback = null)
         {
@@ -34,6 +37,7 @@ namespace Game.UI
 		public override void Hide(Action onHiddenCallback = null)
         {
             base.Hide(onHiddenCallback);
+            lobbyPlayerHolder.ClearPlayers();
             leaveRoomButton.onClick.RemoveListener(LeaveRoomButton_OnClick);
             startGameButton.onClick.RemoveListener(StartGameButton_OnClick);
             roomManager.OnRoomUpdatedState -= RoomManager_OnRoomUpdatedState;
@@ -47,14 +51,12 @@ namespace Game.UI
 
         private void LeaveRoomButton_OnClick()
         {
-            //send leave event
+            gameClientManager.SendRequest(ServerCommunicationTags.JoinRoomRequest, roomManager.CurrentRoomData);
             uiViewsManager.ShowViewOfType(UIViewType.MainMenu);
         }
 
         private void StartGameButton_OnClick()
         {
-            //TODO LATER
-
         }
 
         private void RoomManager_OnRoomUpdatedState(RoomData roomData)

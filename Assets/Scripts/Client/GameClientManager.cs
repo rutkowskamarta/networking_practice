@@ -27,7 +27,7 @@ namespace Game.Client
 
 		private void Client_MessageReceived(object sender, MessageReceivedEventArgs messageEvent)
 		{
-			Debug.Log($"Received response of tag {messageEvent.GetMessage().Tag}");
+			Debug.Log($"Received message of tag {messageEvent.GetMessage().Tag}");
 			OnMessageReceived?.Invoke(messageEvent);
 		}
 

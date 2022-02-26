@@ -19,6 +19,8 @@ namespace Game.UI
 
 		[Inject]
 		private IGameClientManager gameClientManager;
+		[Inject]
+		private IRoomManager roomManager;
 
 		public override void Show(Action onShownCallback = null)
 		{
