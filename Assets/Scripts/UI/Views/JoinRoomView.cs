@@ -50,7 +50,10 @@ namespace Game.UI
 		private void SendRoomJoinRequest()
 		{
 			string roomID = inputField.text;
-			gameClientManager.SendRequest(ServerCommunicationTags.JoinRoomRequest, new RoomData(roomID));
+			if (!string.IsNullOrEmpty(roomID))
+			{
+				gameClientManager.SendRequest(ServerCommunicationTags.JoinRoomRequest, new RoomData(roomID));
+			}
 		}
 	}
 }
