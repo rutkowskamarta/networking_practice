@@ -70,9 +70,9 @@ namespace Game.Client
 			{
 				try
 				{
-					client.Connect(client.Host, client.Port, true);
+					client.ConnectInBackground(client.Host, client.Port, true);
 				}
-				catch(Exception e)
+				catch(Exception)
 				{
 					Debug.Log("Could not connect to the server");
 				}
