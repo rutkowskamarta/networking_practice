@@ -11,7 +11,9 @@ namespace Game.UI
         [SerializeField]
         private CanvasGroup content;
         [SerializeField]
-        private UIViewType viewType = default;
+        protected UIViewType viewType = default;
+
+        public UIViewType ViewType => viewType;
 
         protected IUIViewsManager uiViewsManager;
         private Sequence animationSequence;

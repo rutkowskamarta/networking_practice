@@ -12,6 +12,7 @@ namespace Game.UI
 		private readonly Dictionary<UIViewType, UIView> views = new Dictionary<UIViewType, UIView>();
 
 		public UIView CurrentView { get; private set; }
+		public UIView AdditionalView { get; private set; }
 
 		private void Start()
 		{
@@ -41,11 +42,27 @@ namespace Game.UI
 			}
 		}
 
-		public void HideViewOfType(UIViewType viewToHide, Action onHiddenCallback = null)
+		public void ShowAdditionalViewOfType(UIViewType viewToShow, Action onShowCallback = null, Action onHiddenCallback = null)
+		{
+			if (views.ContainsKey(viewToShow))
+			{
+				AdditionalView = views[viewToShow];
+				views[viewToShow].Show(onShowCallback);
+			}
+		}
+
+		public void HideAdditionalViewOfType(UIViewType viewToHide, Action onHiddenCallback = null)
 		{
 			if (views.ContainsKey(viewToHide))
 			{
-				CurrentView?.Hide(onHiddenCallback);
+				if (AdditionalView == null)
+				{
+					CurrentView.Hide(onHiddenCallback);
+				}
+				else if(AdditionalView.ViewType == viewToHide)
+				{
+					AdditionalView.Hide(onHiddenCallback);
+				}
 			}
 		}
 

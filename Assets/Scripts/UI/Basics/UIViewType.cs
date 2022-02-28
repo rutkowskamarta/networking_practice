@@ -9,5 +9,11 @@
         LobbyRoom,
         WaitingForRoomCreation,
         WaitingForRoomJoin,
+        GamePreparationView,
+        GameLetterSelectionView,
+        GameView,
+        RoundSummaryView,
+        ResultsView,
+        ConnectionStatusView,
     }
 }
