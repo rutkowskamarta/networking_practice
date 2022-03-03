@@ -51,7 +51,7 @@ namespace Game.UI
 
         private void LeaveRoomButton_OnClick()
         {
-            gameClientManager.SendRequest(ServerCommunicationTags.JoinRoomRequest, roomManager.CurrentRoomData);
+            gameClientManager.SendRequest(ServerCommunicationTags.LeaveRoomRequest, roomManager.CurrentRoomData);
             uiViewsManager.ShowViewOfType(UIViewType.MainMenu);
         }
 

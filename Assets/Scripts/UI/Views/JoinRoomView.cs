@@ -12,6 +12,8 @@ namespace Game.UI
     {
         [SerializeField]
         private TMP_InputField inputField;
+		[SerializeField]
+		private TMP_Text validationText;
         [SerializeField]
         private Button joinRoom;
         [SerializeField]
@@ -19,12 +21,11 @@ namespace Game.UI
 
 		[Inject]
 		private IGameClientManager gameClientManager;
-		[Inject]
-		private IRoomManager roomManager;
 
 		public override void Show(Action onShownCallback = null)
 		{
 			base.Show(onShownCallback);
+			ResetLayout();
 			joinRoom.onClick.AddListener(JoinRoomButton_OnClick);
 			backToMenu.onClick.AddListener(BackToMenuButton_OnClick);
 		}
@@ -38,8 +39,21 @@ namespace Game.UI
 
 		private void JoinRoomButton_OnClick()
 		{
-			uiViewsManager.ShowViewOfType(UIViewType.WaitingForRoomJoin, SendRoomJoinRequest);
+			string roomID = inputField.text.ToUpperInvariant();
+			if (string.IsNullOrEmpty(roomID))
+			{
+				validationText.SetText("Please provide room ID");
+			}
+			else
+			{
+				ResetLayout();
+				uiViewsManager.ShowViewOfType(UIViewType.WaitingForRoomJoin, () => SendRoomJoinRequest(roomID));
+			}
+		}
 
+		private void ResetLayout()
+		{
+			validationText.SetText(string.Empty);
 		}
 
 		private void BackToMenuButton_OnClick()
@@ -47,13 +61,9 @@ namespace Game.UI
 			uiViewsManager.ShowViewOfType(UIViewType.MainMenu);
 		}
 
-		private void SendRoomJoinRequest()
+		private void SendRoomJoinRequest(string roomID)
 		{
-			string roomID = inputField.text;
-			if (!string.IsNullOrEmpty(roomID))
-			{
-				gameClientManager.SendRequest(ServerCommunicationTags.JoinRoomRequest, new RoomData(roomID));
-			}
+			gameClientManager.SendRequest(ServerCommunicationTags.JoinRoomRequest, new RoomData(roomID));
 		}
 	}
 }
