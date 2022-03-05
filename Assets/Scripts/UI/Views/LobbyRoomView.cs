@@ -1,5 +1,4 @@
-
-using Game.Client;
+using Game.Game;
 using Game.Room;
 using System;
 using TMPro;
@@ -23,7 +22,7 @@ namespace Game.UI
         [Inject]
         private IRoomManager roomManager;
         [Inject]
-        private IGameClientManager gameClientManager;
+        private IGameManager gameManager;
 
         public override void Show(Action onShownCallback = null)
         {
@@ -32,6 +31,8 @@ namespace Game.UI
             leaveRoomButton.onClick.AddListener(LeaveRoomButton_OnClick);
             startGameButton.onClick.AddListener(StartGameButton_OnClick);
 			roomManager.OnRoomUpdatedState += RoomManager_OnRoomUpdatedState;
+			gameManager.OnGameStartedSuccess += GameManager_OnGameStartedSuccess;
+			gameManager.OnGameStartedFail += GameManager_OnGameStartedFail;
         }
 
 		public override void Hide(Action onHiddenCallback = null)
@@ -41,27 +42,45 @@ namespace Game.UI
             leaveRoomButton.onClick.RemoveListener(LeaveRoomButton_OnClick);
             startGameButton.onClick.RemoveListener(StartGameButton_OnClick);
             roomManager.OnRoomUpdatedState -= RoomManager_OnRoomUpdatedState;
+            gameManager.OnGameStartedSuccess -= GameManager_OnGameStartedSuccess;
+            gameManager.OnGameStartedFail -= GameManager_OnGameStartedFail;
         }
 
         private void InitializeRoomInfo()
         {
             roomID.SetText(roomManager.CurrentRoomData.RoomId);
             lobbyPlayerHolder.UpdatePlayers(roomManager.CurrentRoomData.Players);
+            startGameButton.interactable = roomManager.IsRoomAdministrator;
+            leaveRoomButton.interactable = true;
         }
 
         private void LeaveRoomButton_OnClick()
         {
-            gameClientManager.SendRequest(ServerCommunicationTags.LeaveRoomRequest, roomManager.CurrentRoomData);
             uiViewsManager.ShowViewOfType(UIViewType.MainMenu);
+            roomManager.SendRoomLeaveRequest();
         }
 
         private void StartGameButton_OnClick()
         {
+            gameManager.SendStartGameRequest();
+            startGameButton.interactable = false;
+            leaveRoomButton.interactable = false;
         }
 
         private void RoomManager_OnRoomUpdatedState(RoomData roomData)
         {
             lobbyPlayerHolder.UpdatePlayers(roomData.Players);
+        }
+
+        private void GameManager_OnGameStartedSuccess()
+        {
+            uiViewsManager.ShowViewOfType(UIViewType.GamePreparationView);
+        }
+
+        private void GameManager_OnGameStartedFail()
+        {
+            //TODO: OR SOME DIFFERENT ERROR HANDLING
+            InitializeRoomInfo();
         }
     }
 }

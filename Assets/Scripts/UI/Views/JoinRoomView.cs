@@ -20,7 +20,7 @@ namespace Game.UI
         private Button backToMenu;
 
 		[Inject]
-		private IGameClientManager gameClientManager;
+		private IRoomManager roomManager;
 
 		public override void Show(Action onShownCallback = null)
 		{
@@ -47,7 +47,7 @@ namespace Game.UI
 			else
 			{
 				ResetLayout();
-				uiViewsManager.ShowViewOfType(UIViewType.WaitingForRoomJoin, () => SendRoomJoinRequest(roomID));
+				uiViewsManager.ShowViewOfType(UIViewType.WaitingForRoomJoin, () => roomManager.SendRoomJoinRequest(roomID));
 			}
 		}
 
@@ -59,11 +59,6 @@ namespace Game.UI
 		private void BackToMenuButton_OnClick()
 		{
 			uiViewsManager.ShowViewOfType(UIViewType.MainMenu);
-		}
-
-		private void SendRoomJoinRequest(string roomID)
-		{
-			gameClientManager.SendRequest(ServerCommunicationTags.JoinRoomRequest, new RoomData(roomID));
 		}
 	}
 }

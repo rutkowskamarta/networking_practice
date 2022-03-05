@@ -1,4 +1,5 @@
 using Game.Client;
+using Game.Game;
 using Game.Player;
 using Game.Room;
 using Game.UI;
@@ -21,6 +22,9 @@ namespace Game.Installers
 
             Container.Bind<IRoomManager>()
                .FromComponentInHierarchy().AsSingle();
+
+            Container.Bind<IGameManager>()
+              .FromComponentInHierarchy().AsSingle();
         }
     }
 }

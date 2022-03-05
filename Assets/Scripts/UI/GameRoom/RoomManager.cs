@@ -16,10 +16,11 @@ namespace Game.Room
 		public event Action OnRoomJoinedResponseFail;
 		public event Action<RoomData> OnRoomUpdatedState;
 
+		public bool IsRoomAdministrator { get; private set; }
+		public RoomData CurrentRoomData { get; private set; }
+		
 		[Inject]
 		private IGameClientManager gameClientManager;
-
-		public RoomData CurrentRoomData { get; protected set; }
 
 		private void Start()
 		{
@@ -30,7 +31,22 @@ namespace Game.Room
 		{
 			gameClientManager.OnMessageReceived -= GameClientManager_OnMessageReceived;
 		}
-	
+
+		public void SendRoomJoinRequest(string roomID)
+		{
+			gameClientManager.SendRequest(ServerCommunicationTags.JoinRoomRequest, new RoomData(roomID));
+		}
+
+		public void SendRoomLeaveRequest()
+		{
+			gameClientManager.SendRequest(ServerCommunicationTags.LeaveRoomRequest, CurrentRoomData);
+		}
+
+		public void SendRoomCreationRequest()
+		{
+			gameClientManager.SendRequest(ServerCommunicationTags.CreateRoomRequest, null);
+		}
+
 		private void GameClientManager_OnMessageReceived(MessageReceivedEventArgs messageEvent)
 		{
 			if(messageEvent.Tag == ServerCommunicationTags.CreateRoomResponseSucess)
@@ -50,7 +66,7 @@ namespace Game.Room
 			{
 				OnRoomJoinedResponseFail?.Invoke();
 			}
-			else if (messageEvent.Tag == ServerCommunicationTags.UpdateRoomState)
+			else if (messageEvent.Tag == ServerCommunicationTags.UpdateRoomStateNotification)
 			{
 				ProcessRoomUpdateResponse(messageEvent);
 			}
@@ -60,6 +76,7 @@ namespace Game.Room
 		{
 			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
 			{
+				IsRoomAdministrator = reader.ReadBoolean();
 				var roomId = reader.ReadString();
 				var players = reader.ReadSerializables<PlayerData>();
 				CurrentRoomData = new RoomData(roomId, players);
@@ -71,6 +88,7 @@ namespace Game.Room
 		{
 			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
 			{
+				IsRoomAdministrator = reader.ReadBoolean();
 				RoomData roomData = reader.ReadSerializable<RoomData>();
 				CurrentRoomData = roomData;
 				OnRoomUpdatedState?.Invoke(roomData);

@@ -8,7 +8,7 @@ namespace Game.Player
 	public class PlayerDataManager : MonoBehaviour, IPlayerDataManager
 	{
 		[Inject]
-		private IGameClientManager clientManager;
+		private IGameClientManager gameClientManager;
 
 		private PlayerData playerData;
 		public PlayerData PlayerData => playerData;
@@ -20,7 +20,7 @@ namespace Game.Player
 
 		public void SendPlayerDataUpdate()
 		{
-			clientManager.SendRequest(ServerCommunicationTags.PlayerDataRequest, playerData);
+			gameClientManager.SendRequest(ServerCommunicationTags.PlayerDataRequest, playerData);
 		}
 
 		private void Initialize()
@@ -31,7 +31,7 @@ namespace Game.Player
 
 		private IEnumerator SendDataOnInitialization()
 		{
-			if (!clientManager.IsClientConnected)
+			if (!gameClientManager.IsClientConnected)
 			{
 				yield return new WaitForEndOfFrame();
 			}

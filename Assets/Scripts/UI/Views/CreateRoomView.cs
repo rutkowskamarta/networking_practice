@@ -1,4 +1,4 @@
-using Game.Client;
+using Game.Room;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +14,7 @@ namespace Game.UI
         private Button backToMenu;
 
 		[Inject]
-		private IGameClientManager gameClientManager;
+		private IRoomManager roomManager;
 
 		public override void Show(Action onShownCallback = null)
 		{
@@ -32,12 +32,7 @@ namespace Game.UI
 
 		private void CreateRoomButton_OnClick()
 		{
-			uiViewsManager.ShowViewOfType(UIViewType.WaitingForRoomCreation, SendRoomConnectionRequest);
-		}
-
-		private void SendRoomConnectionRequest()
-		{
-			gameClientManager.SendRequest(ServerCommunicationTags.CreateRoomRequest, null);
+			uiViewsManager.ShowViewOfType(UIViewType.WaitingForRoomCreation, roomManager.SendRoomCreationRequest);
 		}
 
 		private void BackToMenuButton_OnClick()
