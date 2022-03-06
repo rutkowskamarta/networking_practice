@@ -304,3 +304,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 694d0db8b30733146b2a2ac2e43e99dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  categoryNameText: {fileID: 3170815285294811678}
+  removeButton: {fileID: 368439000265781955}

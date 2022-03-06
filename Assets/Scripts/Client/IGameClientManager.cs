@@ -13,5 +13,6 @@ namespace Game.Client
 
 		void SetupConnection();
 		void SendRequest(ushort tag, IDarkRiftSerializable data = null);
+		void SendRequest(ushort tag, DarkRiftWriter darkRiftWriter);
 	}
 }

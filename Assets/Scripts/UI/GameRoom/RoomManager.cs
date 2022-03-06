@@ -44,7 +44,7 @@ namespace Game.Room
 
 		public void SendRoomCreationRequest()
 		{
-			gameClientManager.SendRequest(ServerCommunicationTags.CreateRoomRequest, null);
+			gameClientManager.SendRequest(ServerCommunicationTags.CreateRoomRequest);
 		}
 
 		private void GameClientManager_OnMessageReceived(MessageReceivedEventArgs messageEvent)

@@ -7,14 +7,14 @@ using UnityEngine;
 
 namespace Game.Client
 {
-    public class GameClientManager : MonoBehaviour, IGameClientManager
-    {
+	public class GameClientManager : MonoBehaviour, IGameClientManager
+	{
 		public event Action<ConnectionState> OnConnectionStateChanged;
 		public event Action<MessageReceivedEventArgs> OnMessageReceived;
 		public event Action OnFirstConnectionEstablished;
 
 		[SerializeField]
-        private UnityClient client;
+		private UnityClient client;
 		[SerializeField]
 		private float connectRetryFrequency = 1f;
 
@@ -72,7 +72,7 @@ namespace Game.Client
 				{
 					client.ConnectInBackground(client.Host, client.Port, true);
 				}
-				catch(Exception)
+				catch (Exception)
 				{
 					Debug.Log("Could not connect to the server");
 				}
@@ -99,6 +99,14 @@ namespace Game.Client
 				using (Message message = Message.Create(tag, writer))
 					client.SendMessage(message, SendMode.Unreliable);
 			}
+		}
+
+		public void SendRequest(ushort tag, DarkRiftWriter darkRiftWriter)
+		{
+			Debug.Log($"Sending message of tag {tag}");
+
+			using (Message message = Message.Create(tag, darkRiftWriter))
+				client.SendMessage(message, SendMode.Unreliable);
 		}
 	}
 }
