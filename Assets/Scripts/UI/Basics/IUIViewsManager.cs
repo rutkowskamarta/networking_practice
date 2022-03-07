@@ -10,5 +10,4 @@ namespace Game.UI
 		void HideAdditionalViewOfType(UIViewType viewToHide, Action onHiddenCallback = null);
 		UIView GetView(UIViewType viewEnum);
 	}
-
 }

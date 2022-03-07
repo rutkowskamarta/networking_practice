@@ -21,6 +21,7 @@ namespace Game.Game
 		public event Action<int> OnRoundsModified;
 		public event Action<int> OnPlayersReadyModified;
 		public event Action OnEveryoneReady;
+		public event Action<char> OnLetterGeneratedResponse;
 
 		[Inject]
 		private IGameClientManager gameClientManager;
@@ -103,6 +104,16 @@ namespace Game.Game
 			}
 		}
 
+		public void SendLetterGenerationRequest()
+		{
+			using (DarkRiftWriter writer = DarkRiftWriter.Create())
+			{
+				writer.Write(roomManager.CurrentRoomData.RoomId);
+
+				gameClientManager.SendRequest(ServerCommunicationTags.GenerateLetterRequest, writer);
+			}
+		}
+
 		private bool DoesCategoryExist(string category)
 		{
 			return GameCategories.Contains(category);
@@ -137,6 +148,10 @@ namespace Game.Game
 			else if (messageEvent.Tag == ServerCommunicationTags.EveryoneReadyNotification)
 			{
 				OnEveryoneReady?.Invoke();
+			}
+			else if (messageEvent.Tag == ServerCommunicationTags.LetterGeneratedResponse)
+			{
+				ProcessLetterGenerationResponse(messageEvent);
 			}
 		}
 
@@ -185,6 +200,15 @@ namespace Game.Game
 			{
 				var playersReady = reader.ReadInt32();
 				OnPlayersReadyModified?.Invoke(playersReady);
+			}
+		}
+
+		private void ProcessLetterGenerationResponse(MessageReceivedEventArgs messageEvent)
+		{
+			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
+			{
+				var generatedLetter = reader.ReadChar();
+				OnLetterGeneratedResponse?.Invoke(generatedLetter);
 			}
 		}
 	}

@@ -8,6 +8,8 @@ namespace Game.UI
     [DisallowMultipleComponent]
     public abstract class UIView : MonoBehaviour
     {
+        private const float tweenDuration = 0.5f;
+
         [SerializeField]
         private CanvasGroup content;
         [SerializeField]
@@ -46,7 +48,7 @@ namespace Game.UI
             animationSequence?.Complete(true);
             content.gameObject.SetActive(true);
             animationSequence = DOTween.Sequence().SetUpdate(true);
-            animationSequence.Insert(0.0f, content.DOFade(1.0f, 1.0f).SetEase(Ease.OutQuad));
+            animationSequence.Insert(0.0f, content.DOFade(1.0f, tweenDuration).SetEase(Ease.OutQuad));
             animationSequence.AppendCallback(OnWindowShown);
             animationSequence.AppendCallback(() => onShownCallback?.Invoke());
 		}
@@ -55,7 +57,7 @@ namespace Game.UI
         {
             animationSequence?.Complete(true);
             animationSequence = DOTween.Sequence().SetUpdate(true);
-            animationSequence.Insert(0.0f, content.DOFade(0.0f, 1.0f).SetEase(Ease.OutQuad));
+            animationSequence.Insert(0.0f, content.DOFade(0.0f, tweenDuration).SetEase(Ease.OutQuad));
             animationSequence.AppendCallback(OnWindowHide);
             animationSequence.AppendCallback(() => onHiddenCallback?.Invoke());
         }

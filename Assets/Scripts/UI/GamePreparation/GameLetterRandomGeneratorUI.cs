@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace Game.UI
 {
-    public class GameLetterRandomGenerator : MonoBehaviour
+    public class GameLetterRandomGeneratorUI : MonoBehaviour
     {
         [SerializeField]
         private TMP_Text letterText;
@@ -26,7 +26,8 @@ namespace Game.UI
 
         public void StopLetterGeneration(char letterFromServer)
 		{
-            letterText.SetText(letterFromServer.ToString());
+            letterText.SetText(letterFromServer.ToString().ToUpper());
+            StopAllCoroutines();
         }
 
         private IEnumerator LetterGenerationCoroutine(string supportedLetters)
@@ -46,6 +47,7 @@ namespace Game.UI
 				{
                     OnSymulationFinished?.Invoke();
                 }
+                deltaTime += Time.deltaTime;
                 yield return null;
 			}
         }

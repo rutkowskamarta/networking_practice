@@ -12,6 +12,7 @@ namespace Game.Game
         event Action<int> OnRoundsModified;
         event Action<int> OnPlayersReadyModified;
         event Action OnEveryoneReady;
+        event Action<char> OnLetterGeneratedResponse;
 
         List<string> GameCategories { get; }
         public int Rounds { get; }
@@ -23,5 +24,6 @@ namespace Game.Game
         void SendRoundsModifiedRequest(int rounds);
         void SendPlayerReadyRequest();
         void SendPlayerUnreadyRequest();
+        void SendLetterGenerationRequest();
     }
 }
