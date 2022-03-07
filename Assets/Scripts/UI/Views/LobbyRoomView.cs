@@ -50,7 +50,7 @@ namespace Game.UI
         {
             roomID.SetText(roomManager.CurrentRoomData.RoomId);
             lobbyPlayerHolder.UpdatePlayers(roomManager.CurrentRoomData.Players);
-            startGameButton.interactable = roomManager.IsRoomAdministrator;
+            startGameButton.interactable = roomManager.IsRoomHost;
             leaveRoomButton.interactable = true;
         }
 

@@ -7,6 +7,7 @@ namespace Game.Room
     {
         public string RoomId { get; private set; }
 		public PlayerData[] Players { get; private set; }
+		public int PlayersCount => Players.Length;
 
 		public RoomData()
 		{

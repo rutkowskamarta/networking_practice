@@ -144,6 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5964007653365685538}
   - component: {fileID: 3184174580986083634}
+  - component: {fileID: 3378711816666186351}
   m_Layer: 5
   m_Name: GameLetterSelectionView
   m_TagString: Untagged
@@ -185,6 +186,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   content: {fileID: 4500850730014232548}
   viewType: 8
+--- !u!114 &3378711816666186351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5964007653365685537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ef7899bd4c3fa84fa3a22e33282a504, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  letterText: {fileID: 3358335201806821914}
+  letterGenerationFrequency: 0.2
+  sendLetterGenerationDelay: 3
 --- !u!1 &7070140626924986204
 GameObject:
   m_ObjectHideFlags: 0

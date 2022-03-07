@@ -5,7 +5,7 @@ namespace Game.Room
     public interface IRoomManager
     {
 		RoomData CurrentRoomData { get; }
-		bool IsRoomAdministrator { get; }
+		bool IsRoomHost { get; }
 
 		event Action OnRoomCreatedResponseSuccess;
 		event Action OnRoomCreatedResponseFailed;

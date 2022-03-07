@@ -9,11 +9,19 @@ namespace Game.Game
         event Action OnGameStartedFail;
         event Action<string> OnGameCategoryAdded;
         event Action<string> OnGameCategoryRemoved;
+        event Action<int> OnRoundsModified;
+        event Action<int> OnPlayersReadyModified;
+        event Action OnEveryoneReady;
 
         List<string> GameCategories { get; }
+        public int Rounds { get; }
+        public int PlayersParticipating { get; }
 
         void SendStartGameRequest();
         void SendAddGameCategoryRequest(string category);
         void SendRemoveGameCategoryRequest(string category);
+        void SendRoundsModifiedRequest(int rounds);
+        void SendPlayerReadyRequest();
+        void SendPlayerUnreadyRequest();
     }
 }

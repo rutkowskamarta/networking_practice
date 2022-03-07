@@ -11,12 +11,16 @@ namespace Game.Game
 {
 	public class GameManager : MonoBehaviour, IGameManager
 	{
+		public const string SupportedLetters = "abcdefghijklmnoprstuwz";
 		public const int MinimumPlayersToStartGame = 2;
 
 		public event Action OnGameStartedSuccess;
 		public event Action OnGameStartedFail;
 		public event Action<string> OnGameCategoryAdded;
 		public event Action<string> OnGameCategoryRemoved;
+		public event Action<int> OnRoundsModified;
+		public event Action<int> OnPlayersReadyModified;
+		public event Action OnEveryoneReady;
 
 		[Inject]
 		private IGameClientManager gameClientManager;
@@ -24,6 +28,8 @@ namespace Game.Game
 		private IRoomManager roomManager;
 
 		public List<string> GameCategories { get; private set; } = new List<string>();
+		public int Rounds { get; private set; }
+		public int PlayersParticipating => roomManager.CurrentRoomData.PlayersCount;
 
 		private void Start()
 		{
@@ -66,6 +72,37 @@ namespace Game.Game
 			}
 		}
 
+		public void SendRoundsModifiedRequest(int rounds)
+		{
+			using (DarkRiftWriter writer = DarkRiftWriter.Create())
+			{
+				writer.Write(roomManager.CurrentRoomData.RoomId);
+				writer.Write(rounds);
+
+				gameClientManager.SendRequest(ServerCommunicationTags.SetRoundsNumberRequest, writer);
+			}
+		}
+
+		public void SendPlayerReadyRequest()
+		{
+			using (DarkRiftWriter writer = DarkRiftWriter.Create())
+			{
+				writer.Write(roomManager.CurrentRoomData.RoomId);
+
+				gameClientManager.SendRequest(ServerCommunicationTags.PlayerReadyRequest, writer);
+			}
+		}
+
+		public void SendPlayerUnreadyRequest()
+		{
+			using (DarkRiftWriter writer = DarkRiftWriter.Create())
+			{
+				writer.Write(roomManager.CurrentRoomData.RoomId);
+
+				gameClientManager.SendRequest(ServerCommunicationTags.PlayerUnreadyRequest, writer);
+			}
+		}
+
 		private bool DoesCategoryExist(string category)
 		{
 			return GameCategories.Contains(category);
@@ -75,8 +112,7 @@ namespace Game.Game
 		{
 			if (messageEvent.Tag == ServerCommunicationTags.GameStartedResponseSucess)
 			{
-				GameCategories.Clear();
-				OnGameStartedSuccess?.Invoke();
+				ProcessGameStartedResponse(messageEvent);
 			}
 			else if (messageEvent.Tag == ServerCommunicationTags.GameStartedResponseFail)
 			{
@@ -84,15 +120,37 @@ namespace Game.Game
 			}
 			else if (messageEvent.Tag == ServerCommunicationTags.GameCategoryAddedNotification)
 			{
-				ProcessCategoryAddedRequest(messageEvent);
+				ProcessCategoryAddedResponse(messageEvent);
 			}
 			else if (messageEvent.Tag == ServerCommunicationTags.GameCategoryAddedNotification)
 			{
-				ProcessCategoryRemovedRequest(messageEvent);
+				ProcessCategoryRemovedResponse(messageEvent);
+			}
+			else if (messageEvent.Tag == ServerCommunicationTags.RoundsModifiedResponse)
+			{
+				ProcessRoundsModifiedResponse(messageEvent);
+			}
+			else if (messageEvent.Tag == ServerCommunicationTags.ReadyStateChangedResponse)
+			{
+				ProcessReadyStateChangedResponse(messageEvent);
+			}
+			else if (messageEvent.Tag == ServerCommunicationTags.EveryoneReadyNotification)
+			{
+				OnEveryoneReady?.Invoke();
 			}
 		}
 
-		private void ProcessCategoryAddedRequest(MessageReceivedEventArgs messageEvent)
+		private void ProcessGameStartedResponse(MessageReceivedEventArgs messageEvent)
+		{
+			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
+			{
+				Rounds = reader.ReadInt32();
+				GameCategories.Clear();
+				OnGameStartedSuccess?.Invoke();
+			}
+		}
+
+		private void ProcessCategoryAddedResponse(MessageReceivedEventArgs messageEvent)
 		{
 			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
 			{
@@ -102,7 +160,7 @@ namespace Game.Game
 			}
 		}
 
-		private void ProcessCategoryRemovedRequest(MessageReceivedEventArgs messageEvent)
+		private void ProcessCategoryRemovedResponse(MessageReceivedEventArgs messageEvent)
 		{
 			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
 			{
@@ -112,5 +170,22 @@ namespace Game.Game
 			}
 		}
 
+		private void ProcessRoundsModifiedResponse(MessageReceivedEventArgs messageEvent)
+		{
+			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
+			{
+				var rounds = reader.ReadInt32();
+				OnRoundsModified?.Invoke(rounds);
+			}
+		}
+
+		private void ProcessReadyStateChangedResponse(MessageReceivedEventArgs messageEvent)
+		{
+			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
+			{
+				var playersReady = reader.ReadInt32();
+				OnPlayersReadyModified?.Invoke(playersReady);
+			}
+		}
 	}
 }
