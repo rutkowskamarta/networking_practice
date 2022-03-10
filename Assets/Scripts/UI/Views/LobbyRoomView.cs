@@ -31,17 +31,19 @@ namespace Game.UI
             leaveRoomButton.onClick.AddListener(LeaveRoomButton_OnClick);
             startGameButton.onClick.AddListener(StartGameButton_OnClick);
 			roomManager.OnRoomUpdatedState += RoomManager_OnRoomUpdatedState;
+            roomManager.OnRoomHostChanged += RoomManager_OnRoomHostChanged;
 			gameManager.OnGameStartedSuccess += GameManager_OnGameStartedSuccess;
 			gameManager.OnGameStartedFail += GameManager_OnGameStartedFail;
         }
 
-		public override void Hide(Action onHiddenCallback = null)
+        public override void Hide(Action onHiddenCallback = null)
         {
             base.Hide(onHiddenCallback);
             lobbyPlayerHolder.ClearPlayers();
             leaveRoomButton.onClick.RemoveListener(LeaveRoomButton_OnClick);
             startGameButton.onClick.RemoveListener(StartGameButton_OnClick);
             roomManager.OnRoomUpdatedState -= RoomManager_OnRoomUpdatedState;
+            roomManager.OnRoomHostChanged -= RoomManager_OnRoomHostChanged;
             gameManager.OnGameStartedSuccess -= GameManager_OnGameStartedSuccess;
             gameManager.OnGameStartedFail -= GameManager_OnGameStartedFail;
         }
@@ -70,6 +72,11 @@ namespace Game.UI
         private void RoomManager_OnRoomUpdatedState(RoomData roomData)
         {
             lobbyPlayerHolder.UpdatePlayers(roomData.Players);
+        }
+
+        private void RoomManager_OnRoomHostChanged(bool isRoomHost)
+        {
+            startGameButton.interactable = isRoomHost;
         }
 
         private void GameManager_OnGameStartedSuccess()

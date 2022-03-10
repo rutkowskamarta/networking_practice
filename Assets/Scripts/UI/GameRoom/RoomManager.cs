@@ -15,6 +15,7 @@ namespace Game.Room
 		public event Action OnRoomJoinedResponseSuccess;
 		public event Action OnRoomJoinedResponseFail;
 		public event Action<RoomData> OnRoomUpdatedState;
+		public event Action<bool> OnRoomHostChanged;
 
 		public bool IsRoomHost { get; private set; }
 		public RoomData CurrentRoomData { get; private set; }
@@ -77,6 +78,7 @@ namespace Game.Room
 			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
 			{
 				IsRoomHost = reader.ReadBoolean();
+				OnRoomHostChanged?.Invoke(IsRoomHost);
 				var roomId = reader.ReadString();
 				var players = reader.ReadSerializables<PlayerData>();
 				CurrentRoomData = new RoomData(roomId, players);
@@ -89,6 +91,7 @@ namespace Game.Room
 			using (DarkRiftReader reader = messageEvent.GetMessage().GetReader())
 			{
 				IsRoomHost = reader.ReadBoolean();
+				OnRoomHostChanged?.Invoke(IsRoomHost);
 				RoomData roomData = reader.ReadSerializable<RoomData>();
 				CurrentRoomData = roomData;
 				OnRoomUpdatedState?.Invoke(roomData);

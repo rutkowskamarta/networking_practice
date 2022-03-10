@@ -12,6 +12,7 @@ namespace Game.Room
 		event Action OnRoomJoinedResponseSuccess;
 		event Action OnRoomJoinedResponseFail;
 		event Action<RoomData> OnRoomUpdatedState;
+		event Action<bool> OnRoomHostChanged;
 
 		void SendRoomJoinRequest(string roomID);
 		void SendRoomLeaveRequest();
