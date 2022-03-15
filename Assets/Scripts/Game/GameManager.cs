@@ -22,6 +22,7 @@ namespace Game.Game
 		public event Action<int> OnPlayersReadyModified;
 		public event Action OnEveryoneReady;
 		public event Action<char> OnLetterGeneratedResponse;
+		public event Action OnTimeStoppedReceived;
 
 		[Inject]
 		private IGameClientManager gameClientManager;
@@ -109,8 +110,16 @@ namespace Game.Game
 			using (DarkRiftWriter writer = DarkRiftWriter.Create())
 			{
 				writer.Write(roomManager.CurrentRoomData.RoomId);
-
 				gameClientManager.SendRequest(ServerCommunicationTags.GenerateLetterRequest, writer);
+			}
+		}
+
+		public void SendStopTime()
+        {
+			using (DarkRiftWriter writer = DarkRiftWriter.Create())
+			{
+				writer.Write(roomManager.CurrentRoomData.RoomId);
+				gameClientManager.SendRequest(ServerCommunicationTags.StopTimeRequest, writer);
 			}
 		}
 
@@ -152,6 +161,10 @@ namespace Game.Game
 			else if (messageEvent.Tag == ServerCommunicationTags.LetterGeneratedResponse)
 			{
 				ProcessLetterGenerationResponse(messageEvent);
+			}
+			else if (messageEvent.Tag == ServerCommunicationTags.TimeStoppedNotification)
+			{
+				OnTimeStoppedReceived?.Invoke();
 			}
 		}
 

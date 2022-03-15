@@ -16,6 +16,7 @@ namespace Game.Client
         public static readonly ushort PlayerReadyRequest = 8;
         public static readonly ushort PlayerUnreadyRequest = 9;
         public static readonly ushort GenerateLetterRequest = 10;
+        public static readonly ushort StopTimeRequest = 11;
 
 
         //response tags
@@ -37,5 +38,7 @@ namespace Game.Client
 
         public static readonly ushort ReadyStateChangedResponse = 111;
         public static readonly ushort LetterGeneratedResponse = 112;
+
+        public static readonly ushort TimeStoppedNotification = 113;
     }
 }
