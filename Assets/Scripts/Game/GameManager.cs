@@ -11,9 +11,6 @@ namespace Game.Game
 {
 	public class GameManager : MonoBehaviour, IGameManager
 	{
-		public const string SupportedLetters = "abcdefghijklmnoprstuwz";
-		public const int MinimumPlayersToStartGame = 2;
-
 		public event Action OnGameStartedSuccess;
 		public event Action OnGameStartedFail;
 		public event Action<string> OnGameCategoryAdded;

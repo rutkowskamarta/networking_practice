@@ -20,7 +20,7 @@ namespace Game.UI
 		{
 			base.Show(onShownCallback);
 			Initialize();
-			randomLetterGenerator.StartLetterGeneration(SendGenerateLetterRequest, GameManager.SupportedLetters);
+			randomLetterGenerator.StartLetterGeneration(SendGenerateLetterRequest, GameSettings.SupportedLetters);
 			gameManager.OnLetterGeneratedResponse += GameManager_OnLetterGeneratedResponse;
 			continueButton.onClick.AddListener(ContinueButton_OnClick);
 		}

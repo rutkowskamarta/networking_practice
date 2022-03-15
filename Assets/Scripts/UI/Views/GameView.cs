@@ -21,17 +21,23 @@ namespace Game.UI
             base.Show(onShownCallback);
             gameAnswerHolderUI.Initialize(gameManager.GameCategories);
             stopButton.onClick.AddListener(StopButton_OnClick);
+            gameManager.OnTimeStoppedReceived += GameManager_OnTimeStoppedReceived;
         }
 
         public override void Hide(Action onHiddenCallback = null)
         {
             base.Hide(onHiddenCallback);
             stopButton.onClick.RemoveListener(StopButton_OnClick);
+            gameManager.OnTimeStoppedReceived -= GameManager_OnTimeStoppedReceived;
         }
-      
+
         private void StopButton_OnClick()
         {
+            gameManager.SendStopTime();
+        }
 
+        private void GameManager_OnTimeStoppedReceived()
+        {
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Game.Game
         List<string> GameCategories { get; }
         public int Rounds { get; }
         public int PlayersParticipating { get; }
+        public GameSettings GameSettings { get; }
 
         void SendStartGameRequest();
         void SendAddGameCategoryRequest(string category);
